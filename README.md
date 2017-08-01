@@ -1,9 +1,9 @@
-# CarND-Controls-MPC
-Self-Driving Car Engineer Nanodegree Program
-
+### CarND-Controls-MPC (Self-Driving Car Project)
+### Project Memeber: Cuiqing Li
+### Time: August 2017
 ---
 
-## Dependencies
+### Dependencies
 
 * cmake >= 3.5
  * All OSes: [click here for installation instructions](https://cmake.org/install/)
@@ -53,15 +53,14 @@ Self-Driving Car Engineer Nanodegree Program
 * Not a dependency but read the [DATA.md](./DATA.md) for a description of the data sent back from the simulator.
 
 
-## Basic Build Instructions
-
-
+### Basic Build Instructions
+```
 1. Clone this repo.
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./mpc`.
-
-## Tips
+```
+### Tips
 
 1. It's recommended to test the MPC on basic examples to see if your implementation behaves as desired. One possible example
 is the vehicle starting offset of a straight line (reference). If the MPC implementation is correct, after some number of timesteps
@@ -69,7 +68,7 @@ is the vehicle starting offset of a straight line (reference). If the MPC implem
 2. The `lake_track_waypoints.csv` file has the waypoints of the lake track. You could use this to fit polynomials and points and see of how well your model tracks curve. NOTE: This file might be not completely in sync with the simulator so your solution should NOT depend on it.
 3. For visualization this C++ [matplotlib wrapper](https://github.com/lava/matplotlib-cpp) could be helpful.
 
-## Editor Settings
+### Editor Settings
 
 We've purposefully kept editor configuration files out of this repo in order to
 keep it as simple and environment agnostic as possible. However, we recommend
@@ -78,11 +77,11 @@ using the following settings:
 * indent using spaces
 * set tab width to 2 spaces (keeps the matrices in source code aligned)
 
-## Code Style
+### Code Style
 
 Please (do your best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
 
-## Project Instructions and Rubric
+### Project Instructions and Rubric
 
 Note: regardless of the changes you make, your project must be buildable using
 cmake and make!
@@ -91,12 +90,12 @@ More information is only accessible by people who are already enrolled in Term 2
 of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/f1820894-8322-4bb3-81aa-b26b3c6dcbaf/lessons/b1ff3be0-c904-438e-aad3-2b5379f0e0c3/concepts/1a2255a0-e23c-44cf-8d41-39b8a3c8264a)
 for instructions and the project rubric.
 
-## Hints!
+### Hints!
 
 * You don't have to follow this directory structure, but if you do, your work
   will span all of the .cpp files here. Keep an eye out for TODOs.
 
-## Call for IDE Profiles Pull Requests
+### Call for IDE Profiles Pull Requests
 
 Help your fellow students!
 
