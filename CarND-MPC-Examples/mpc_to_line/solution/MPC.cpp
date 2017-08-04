@@ -48,7 +48,9 @@ class FG_eval {
  public:
   Eigen::VectorXd coeffs;
   // Coefficients of the fitted polynomial.
-  FG_eval(Eigen::VectorXd coeffs) { this->coeffs = coeffs; }
+  FG_eval(Eigen::VectorXd coeffs) {
+    this->coeffs = coeffs;
+  }
 
   typedef CPPAD_TESTVECTOR(AD<double>) ADvector;
   // `fg` is a vector containing the cost and constraints.
