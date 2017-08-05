@@ -11,6 +11,8 @@
 
 // for convenience
 using json = nlohmann::json;
+using namespace std;
+using namespace Eigen;
 
 // For converting back and forth between radians and degrees.
 constexpr double pi() { return M_PI; }
@@ -93,13 +95,28 @@ int main() {
           double v = j[1]["speed"];
 
           /*
-          * TODO: Calculate steering angle and throttle using MPC.
+          * Calculate steering angle and throttle using MPC.
           *
           * Both are in between [-1, 1].
           *
           */
-          double steer_value;
-          double throttle_value;
+          int N = ptsx.size();
+          VectorXd x_vehicle(N);
+          VectorXd y_vehicle(N);
+          for(int i = 0;i < N;i++){
+                double x = ptsx[i]-px;
+                double y = ptsy[i]-py;
+                x_vehicle[i]=x*cos(-psi)-y*sin(-psi);
+                y_vehicle[i]=x*sin(-psi)+y*cos(-psi);
+          }
+
+          auto coeffs = polyfit(x_vehicle, y_vehicle, 3); // Fit ploynomial
+          double cte = coeffs[0];
+          double epsi = -atan(coeffs[1]); //-f'(0)
+          
+
+          double steer_value = j[1]["steering_angle"];
+          double throttle_value = j[1]["throttle"]; 
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
