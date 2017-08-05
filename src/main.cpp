@@ -114,6 +114,9 @@ int main() {
           double cte = coeffs[0];
           double epsi = -atan(coeffs[1]); //-f'(0)
           
+          VectorXd state(6);
+          state << 0,0,0,v,cte,epsi;
+          auto vars = mpc.Solve(state,coeffs);
 
           double steer_value = j[1]["steering_angle"];
           double throttle_value = j[1]["throttle"]; 
