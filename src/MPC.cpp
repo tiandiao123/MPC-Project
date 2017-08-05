@@ -154,15 +154,6 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   // For example: If the state is a 4 element vector, the actuators is a 2
   // element vector and there are 10 timesteps. The number of variables is:
   //  size_t i;
-  typedef CPPAD_TESTVECTOR(double) Dvector;
-
-  double x = x0[0];
-  double y = x0[1];
-  double psi = x0[2];
-  double v = x0[3];
-  double cte = x0[4];
-  double epsi = x0[5];
-  // 4 * 10 + 2 * 9
   size_t n_vars = N * 6 + (N - 1) * 2;
   // Set the number of constraints
   size_t n_constraints = N * 6;
@@ -245,8 +236,6 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   ok &= solution.status == CppAD::ipopt::solve_result<Dvector>::success;
 
   // Cost
-  auto cost = solution.obj_value;
-  std::cout << "Cost " << cost << std::endl;
   auto cost = solution.obj_value;
   std::cout << "Cost " << cost << std::endl;
   return {solution.x[x_start + 1],   solution.x[y_start + 1],
