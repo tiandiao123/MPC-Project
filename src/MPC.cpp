@@ -108,9 +108,8 @@ class FG_eval {
       AD<double> delta0 = vars[delta_start + t - 1];
       AD<double> a0 = vars[a_start + t - 1];
 
-      AD<double> f0 = coeffs[0] + coeffs[1] * x0;
-      AD<double> psides0 = CppAD::atan(coeffs[1]);
-
+      AD<double> f0 = coeffs[0] + coeffs[1] * x0 + coeffs[2] * CppAD::pow(x0,2)+coeffs[3] * CppAD::pow(x0,3);
+      AD<double> psides0 = CppAD::atan(coeffs[1]+2*coeffs[2]*x0+3*coeffs[3]*CppAD::pow(x0,2));
       // x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
       // y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
       // psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt
@@ -154,7 +153,15 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   // Set the number of model variables (includes both states and inputs).
   // For example: If the state is a 4 element vector, the actuators is a 2
   // element vector and there are 10 timesteps. The number of variables is:
-  //
+  //  size_t i;
+  typedef CPPAD_TESTVECTOR(double) Dvector;
+
+  double x = x0[0];
+  double y = x0[1];
+  double psi = x0[2];
+  double v = x0[3];
+  double cte = x0[4];
+  double epsi = x0[5];
   // 4 * 10 + 2 * 9
   size_t n_vars = N * 6 + (N - 1) * 2;
   // Set the number of constraints

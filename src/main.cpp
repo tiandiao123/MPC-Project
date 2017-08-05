@@ -118,8 +118,8 @@ int main() {
           state << 0,0,0,v,cte,epsi;
           auto vars = mpc.Solve(state,coeffs);
 
-          double steer_value = j[1]["steering_angle"];
-          double throttle_value = j[1]["throttle"]; 
+          double steer_value = vars[6];
+          double throttle_value = vars[7]; 
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
