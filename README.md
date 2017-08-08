@@ -7,7 +7,7 @@ Time: August 2017
 Model Predictive Controller attempts to approximate a continues reference trajectory by means of discrete paths between actuations, so I am applying MPC to let autonomous cars drive themselves from destination A to destination B. Here is a tutorial of [MPC](https://stanford.edu/class/ee364b/lectures/mpc_slides.pdf). Here is [an amazing video](https://www.youtube.com/watch?v=DFqOf5wbQtc) for showing how Model predictive controller works!
 
 ### My Project Final Review:
-![gif](ressult.gif)
+![gif](result.gif)
 
 ### Standard Project Result:
 ![gif](mpc-vid2.gif)
