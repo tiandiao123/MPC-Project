@@ -23,6 +23,15 @@ double dt = 0.15;
 const double Lf = 2.67;
 
 
+int cost_cte_factor = 3000;
+int cost_epsi_factor = 500; // made initial portion etc much less snaky
+int cost_v_factor = 1;
+int cost_current_delta_factor = 1;
+int cost_diff_delta_factor = 200;
+int cost_current_a_factor = 1;
+int cost_diff_a_factor = 1;
+
+
 // Both the reference cross track and orientation errors are 0.
 // The reference velocity is set to 40 mph.
 double ref_v = 40;
@@ -53,16 +62,8 @@ class FG_eval {
     // `fg` a vector of the cost constraints, `vars` is a vector of variable values (state & actuators)
     // NOTE: You'll probably go back and forth between this function and
     // the Solver function below.
-     fg[0] = 0;
-     int cost_cte_factor = 3000;
-     int cost_epsi_factor = 500; // made initial portion etc much less snaky
-     int cost_v_factor = 1;
-     int cost_current_delta_factor = 1;
-     int cost_diff_delta_factor = 200;
-     int cost_current_a_factor = 1;
-     int cost_diff_a_factor = 1;
+    fg[0] = 0;
 
-    // The part of the cost based on the reference state.
     for (int t = 0; t < N; t++) {
       fg[0] += 3000*CppAD::pow(vars[cte_start + t], 2);
       fg[0] += 500*CppAD::pow(vars[epsi_start + t], 2);
@@ -82,7 +83,8 @@ class FG_eval {
     }
 
 
-    // Initial constraints
+
+     // Initial constraints
     //
     // We add 1 to each of the starting indices due to cost being located at
     // index 0 of `fg`.
@@ -127,13 +129,13 @@ class FG_eval {
       // epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * dt
       fg[1 + x_start + t] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
       fg[1 + y_start + t] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
-      fg[1 + psi_start + t] = psi1 - (psi0 + v0 * delta0 / Lf * dt);
+      fg[1 + psi_start + t] = psi1 - (psi0 - v0 * delta0 / Lf * dt);
       fg[1 + v_start + t] = v1 - (v0 + a0 * dt);
       fg[1 + cte_start + t] =
           cte1 - ((f0 - y0) + (v0 * CppAD::sin(epsi0) * dt));
       fg[1 + epsi_start + t] =
           epsi1 - ((psi0 - psides0) + v0 * delta0 / Lf * dt);
-    }
+     }
 
 
   }
