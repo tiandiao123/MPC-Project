@@ -106,8 +106,8 @@ int main() {
           for(int i = 0;i < N;i++){
                 double x = ptsx[i]-px;
                 double y = ptsy[i]-py;
-                x_vehicle[i]=x*cos(-psi)-y*sin(-psi);
-                y_vehicle[i]=x*sin(-psi)+y*cos(-psi);
+                x_vehicle[i]=x*cos(psi)+y*sin(psi);
+                y_vehicle[i]=-x*sin(psi)+y*cos(psi);
           }
 
           auto coeffs = polyfit(x_vehicle, y_vehicle, 3); // Fit ploynomial
@@ -115,18 +115,33 @@ int main() {
           double epsi = -atan(coeffs[1]); //-f'(0)
           
           VectorXd state(6);
-          state << 0,0,0,v,cte,epsi;
+
+          double dt = 0.1;
+          double delta = j[1]["steering_angle"];
+          double prev_a = mpc.pre_a;
+          double Lf = 2.67;
+
+
+          double predicted_x = v * dt;
+          double predicted_y = 0;
+          double predicted_psi = - v * delta / Lf * dt;
+          double predicted_v = v + prev_a * dt;
+          double predicted_cte = cte + v * sin(epsi) * dt;
+          double predicted_epsi = epsi + predicted_psi;
+          
+
+          state << predicted_x,predicted_y,predicted_psi,predicted_v,predicted_cte,predicted_epsi;
           auto vars = mpc.Solve(state,coeffs);
 
           double steer_value = vars[0];
           double throttle_value = vars[1]; 
 
           json msgJson;
-          // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
-          // Otherwise the values will be in between [-deg2rad(25), deg2rad(25] instead of [-1, 1].
-          msgJson["steering_angle"] = steer_value/deg2rad(25);
+          msgJson["steering_angle"] = steer_value/(deg2rad(25)*Lf);
           msgJson["throttle"] = throttle_value;
+          
 
+          mpc.pre_a = throttle_value;
           //Display the MPC predicted trajectory 
           vector<double> mpc_x_vals;
           vector<double> mpc_y_vals;
